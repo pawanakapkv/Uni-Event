@@ -25,6 +25,7 @@ import {
     Platform,
     Modal,
     TextInput,
+    useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BarChart } from 'react-native-chart-kit';
@@ -33,9 +34,8 @@ import { db } from '../lib/firebaseConfig';
 import { useTheme } from '../lib/ThemeContext';
 import { sendBulkAnnouncement, sendBulkFeedbackRequest } from '../lib/EmailService';
 
-const { width } = Dimensions.get('window');
-
 export default function AttendanceDashboard({ route, navigation }) {
+    const { width: screenWidth } = useWindowDimensions();
     const { eventId, eventTitle } = route.params;
     const { user } = useAuth();
     const { theme } = useTheme();
@@ -651,7 +651,7 @@ export default function AttendanceDashboard({ route, navigation }) {
                         </View>
                         <BarChart
                             data={peakAttendanceData}
-                            width={width - 40}
+                            width={Math.max(screenWidth - 40, 280)}
                             height={220}
                             yAxisLabel=""
                             yAxisSuffix=""
